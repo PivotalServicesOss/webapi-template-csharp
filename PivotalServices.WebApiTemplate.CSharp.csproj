@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0</PackageVersion>
-    <PackageId>Pivotal.NetCore.WebApi.Template</PackageId>
+    <PackageId>PivotalServices.WebApiTemplate.CSharp</PackageId>
     <Title>Pivotal PCF WebAPI Template</Title>
     <Authors>Pivotal</Authors>
     <Description>dotnet new template for creating a PCF ready dotnet core web api application with unit and integration tests</Description>
