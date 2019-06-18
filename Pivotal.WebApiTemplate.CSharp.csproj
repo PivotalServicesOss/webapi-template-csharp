@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageVersion>1.0</PackageVersion>
+    <PackageId>Pivotal.NetCore.WebApi.Template</PackageId>
+    <Title>Pivotal PCF WebAPI Template</Title>
+    <Authors>Pivotal</Authors>
+    <Description>dotnet new template for creating a PCF ready dotnet core web api application with unit and integration tests</Description>
+    <Tags>dotnet-new;templates;pcf;webapi</Tags>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Pivotal.NetCore.WebApi.Template\**\*" Exclude="**\.vs\**;**\.vscode\**;**\bin\**;**\obj\**;**\*.user;" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+</Project>
