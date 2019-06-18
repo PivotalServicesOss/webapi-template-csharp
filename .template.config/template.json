@@ -1,0 +1,12 @@
+﻿{
+  "author": "Pivotal",
+  "classifications": [ "WebApi","ASP.NET Core","PCF" ],
+  "name": "PCF Ready ASP.NET Core Web API ",
+  "identity": "Pivotal.NetCore.WebApi",
+  "shortName": "pvtlwebapi",
+  "tags": {
+    "language": "C#"
+  },
+  "sourceName": "Pivotal.NetCore.WebApi.Template", 
+  "preferNameDirectory": true
+}
