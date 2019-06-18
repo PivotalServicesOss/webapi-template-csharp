@@ -45,8 +45,7 @@ task help {
    Write-Help-For-Alias "dev" "Optimized for local dev"
    Write-Help-For-Alias "ci" "Continuous Integration build (long and thorough) with packaging"
    Write-Help-For-Alias "test" "Run local tests"
-   Write-Help-For-Alias "pnp" "Intended for pushing to PCF"
-   Write-Help-For-Alias "pp" "Intended for pushing to PCF. Will run webpack without tests"
+   Write-Help-For-Alias "pp" "Intended for pushing to PCF. Will dotnet publish into $release_id then cf push"
    Write-Help-Footer
    exit 0
 }
