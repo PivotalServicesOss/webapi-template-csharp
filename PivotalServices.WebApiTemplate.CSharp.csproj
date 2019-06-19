@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Pivotal.NetCore.WebApi.Template\**\*" Exclude="**\.vs\**;**\.vscode\**;**\bin\**;**\obj\**;**\*.user;" />
+    <Content Include="PivotalServices.WebApiTemplate.CSharp\**\*" Exclude="**\.vs\**;**\.vscode\**;**\bin\**;**\obj\**;**\*.user;" />
     <Compile Remove="**\*" />
   </ItemGroup>
 
