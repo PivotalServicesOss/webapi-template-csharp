@@ -5,6 +5,7 @@
     <PackageVersion>1.0</PackageVersion>
     <PackageId>PivotalServices.WebApiTemplate.CSharp</PackageId>
     <Title>Pivotal PCF WebAPI Template</Title>
+    <repositoryUrl>https://github.com/CedricYao/pivotal-webapi-template-csharp</repositoryUrl>
     <Authors>Pivotal</Authors>
     <Description>dotnet new template for creating a PCF ready dotnet core web api application with unit and integration tests</Description>
     <Tags>dotnet-new;templates;pcf;webapi</Tags>
@@ -13,11 +14,13 @@
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="PivotalServices.WebApiTemplate.CSharp\**\*" Exclude="**\.vs\**;**\.vscode\**;**\bin\**;**\obj\**;**\*.user;" />
     <Compile Remove="**\*" />
+    <Content Include="license.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
   </ItemGroup>
 
 </Project>
