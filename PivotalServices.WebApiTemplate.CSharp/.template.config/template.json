@@ -1,12 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Pivotal",
-  "classifications": [ "pcf", "webapi" ],
+  "classifications": [ "PCF", "WebAPI", "Web" ],
   "identity": "PivotalServices.WebApiTemplate.CSharp",
-  "name": "PCF Ready ASP.NET Core Web API",
+  "name": "PCF Ready .NET Core WebAPI",
   "tags": {
       "language": "C#"
   },
+  "sourceName": "PivotalServices.WebApiTemplate.CSharp",
   "preferNameDirectory": true,
   "shortName": "pvtlwebapi"
 }
