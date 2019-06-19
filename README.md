@@ -4,7 +4,7 @@ This is an opinionated .NET Core template for the dotnet new command.
 
 ## Getting Started
 
-1. Install the template
+1. Install the template from [nuget.org](https://www.nuget.org/packages/PivotalServices.WebApiTemplate.CSharp)
 ```
 dotnet new -i PivotalServices.WebApiTemplate.CSharp
 ```
