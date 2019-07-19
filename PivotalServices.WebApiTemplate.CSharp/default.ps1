@@ -65,16 +65,6 @@ task SetReleaseBuild {
     $script:project_config = "Release"
 }
 
-task SetVersion {
-	set-content $base_dir\CommonAssemblyInfo.cs "// Generated file - do not modify",
-	        "using System.Reflection;",
-	        "[assembly: AssemblyVersion(`"$version`")]",
-	        "[assembly: AssemblyFileVersion(`"$version`")]",
-	        "[assembly: AssemblyInformationalVersion(`"$version`")]"
-	
-	Write-Host "Using version#: $version"
-}
-
 task UnitTests {
    Write-Host "******************* Now running Unit Tests *********************"
    exec { & $dotnet_exe test -c $project_config "$project_dir.UnitTests" -- xunit.parallelizeTestCollections=true }
@@ -105,7 +95,7 @@ task Publish {
 	if (!(Test-Path $publish_dir)) {
 		New-Item -ItemType Directory -Force -Path $publish_dir
 	}
-	exec { & $dotnet_exe publish -c $project_config $project_file -o $publish_dir -r $release_id}
+	exec { & $dotnet_exe publish -c $project_config $project_file -o $publish_dir -r $release_id -p:AssemblyVersion=$version}
 }
 
 task Push {
@@ -178,7 +168,7 @@ function global:get_vstest_executable($lookin_path) {
 
 function global:get_version(){
 	Write-Host "******************* Getting the Version Number ********************"
-	$version = get-content "$base_Dir\..\version\number" -ErrorAction SilentlyContinue
+	$version = get-content "$base_Dir\..\version\version" -ErrorAction SilentlyContinue
 	if ($version -eq $null) {
 	    Write-Host "--------- No version found defaulting to 1.0.0 --------------------" -foregroundcolor Red
 		$version = '1.0.0'
