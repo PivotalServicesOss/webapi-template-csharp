@@ -21,3 +21,10 @@ dotnet new pvtlwebapi -n <NAME_OF_SOLUTION>
 ```
 
 4. Goto the folder and run either `build.bat` or `build.sh` for the initial build.
+
+## Packaging this template
+
+1. To package this template use the following command.
+```
+dotnet pack -p:PackageVersion=[version-number]
+```
