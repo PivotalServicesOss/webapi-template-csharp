@@ -31,8 +31,8 @@ namespace PivotalServices.WebApiTemplate.CSharp.Integration.Tests.Controllers
         [Fact]
         public async Task GetValues_ShouldReturnCorrectResponse()
         {
-            var content = _response.Content.ReadAsStringAsync();
-            var formResponse = JsonConvert.DeserializeObject<GetValues.Response>(content.Result);
+            var content = await _response.Content.ReadAsStringAsync();
+            var formResponse = JsonConvert.DeserializeObject<GetValues.Response>(content);
             formResponse.Result.Should().Be(JsonConvert.SerializeObject(new GetValues.Request { Param1 = "12345678", Param2 = "123" }));
         }
         
