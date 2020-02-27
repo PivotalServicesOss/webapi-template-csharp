@@ -1,0 +1,20 @@
+﻿---
+Logging:
+  IncludeScopes: true
+  LogLevel:
+    Default: Information
+    Steeltoe: Warning
+    Microsoft: Warning
+    FluentValidation: Warning
+    System: Warning
+    MediatR: Warning
+ApiInfo:
+  Title: PivotalServices.WebApiTemplate.CSharp API
+  Description: A template for ASP.NET Core Web API
+  Contact:
+    Name: PivotalServices
+    Email: foo@bar.com
+  License:
+    Name: PivotalServices
+    Url: https://licenses.bar.com/license1
+  DeprecationMessage: " Warning: This API version has been deprecated."

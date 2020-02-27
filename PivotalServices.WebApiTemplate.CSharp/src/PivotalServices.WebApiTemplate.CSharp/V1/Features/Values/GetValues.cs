@@ -5,7 +5,7 @@ using MediatR;
 using Newtonsoft.Json;
 using PivotalServices.WebApiTemplate.CSharp.Extensions;
 
-namespace PivotalServices.WebApiTemplate.CSharp.Features.Values
+namespace PivotalServices.WebApiTemplate.CSharp.V1.Features.Values
 {
     public class GetValues
     {
@@ -13,7 +13,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.Features.Values
         {
             public async Task<Response> Handle(Request request, CancellationToken cancellationToken)
             {
-                //Task is used here just to demonstrate the usage of async/await method
+                //Task.Run() is used here just to demonstrate the usage of async/await method
                 return await Task.Run(() => new Response {Result = JsonConvert.SerializeObject(request)}, cancellationToken);
             }
         }
