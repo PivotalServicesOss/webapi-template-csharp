@@ -27,7 +27,6 @@ namespace PivotalServices.WebApiTemplate.CSharp
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
                 var env = hostingContext.HostingEnvironment;
-                var clientSettings = new ConfigServerClientSettings { Environment = env.EnvironmentName };
 
                 if (env.IsDevelopment() && !string.IsNullOrEmpty(env.ApplicationName))
                 {
@@ -41,9 +40,9 @@ namespace PivotalServices.WebApiTemplate.CSharp
                     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, false)
                     .AddYamlFile("appsettings.yaml", true, false)
                     .AddYamlFile($"appsettings.{env.EnvironmentName}.yaml", true, false)
-                    .AddPlaceholderResolver()
                     .AddEnvironmentVariables()
-                    .AddConfigServer(clientSettings);
+                    .AddConfigServer()
+                    .AddPlaceholderResolver();
             })
             .UseDefaultServiceProvider((hostingContext, options) =>
             {
