@@ -54,6 +54,7 @@ namespace PivotalServices.WebApiTemplate.CSharp
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                webBuilder.UseCloudHosting(5000, 5001);
             })
             .ConfigureLogging((hostingContext, loggingBuilder) => 
             {
@@ -68,7 +69,6 @@ namespace PivotalServices.WebApiTemplate.CSharp
                 loggingBuilder.AddDynamicConsole();
                 loggingBuilder.AddEventSourceLogger();
             })
-            //.UseCloudHosting()
             .Build()
             .Run();
         }
