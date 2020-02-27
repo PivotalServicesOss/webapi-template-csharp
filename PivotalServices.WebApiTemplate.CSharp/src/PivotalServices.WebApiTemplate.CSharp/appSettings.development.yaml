@@ -1,0 +1,10 @@
+﻿---
+Logging:
+  LogLevel:
+    Default: Information
+    Steeltoe: Information
+    Microsoft: Information
+spring:
+  cloud:
+    config:
+      failFast: false

@@ -9,6 +9,7 @@ using Steeltoe.Extensions.Logging;
 using Steeltoe.Extensions.Configuration.Placeholder;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PivotalServices.WebApiTemplate.CSharp
 {
@@ -16,15 +17,57 @@ namespace PivotalServices.WebApiTemplate.CSharp
     {
         public static void Main(string[] args)
         {
-            new HostBuilder()
-            .UseContentRoot(Directory.GetCurrentDirectory())
-            .ConfigureHostConfiguration(config =>
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return new HostBuilder()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureHostConfiguration(ConfigureHost(args))
+                .ConfigureAppConfiguration(ConfigureApplicationConfig())
+                .UseDefaultServiceProvider(ConfigureServiceProvider())
+                .ConfigureWebHostDefaults(ConfigureWebHost())
+                .ConfigureLogging(ConfigureLogging());
+        }
+
+        private static Action<HostBuilderContext, ServiceProviderOptions> ConfigureServiceProvider()
+        {
+            return (hostingContext, options) =>
             {
-                config.AddEnvironmentVariables(prefix: "DOTNET_");
-                if (args != null)
-                    config.AddCommandLine(args);
-            })
-            .ConfigureAppConfiguration((hostingContext, config) =>
+                var isDevelopment = hostingContext.HostingEnvironment.IsDevelopment();
+                options.ValidateScopes = isDevelopment;
+                options.ValidateOnBuild = isDevelopment;
+            };
+        }
+
+        private static Action<IWebHostBuilder> ConfigureWebHost()
+        {
+            return webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+                webBuilder.UseCloudHosting(5000, 5001);
+            };
+        }
+
+        private static Action<HostBuilderContext, ILoggingBuilder> ConfigureLogging()
+        {
+            return (hostingContext, loggingBuilder) =>
+            {
+                loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole(options =>
+                {
+                    options.IncludeScopes = Convert.ToBoolean(
+                    hostingContext.Configuration["Logging:IncludeScopes"]);
+                });
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddEventSourceLogger();
+            };
+        }
+
+        private static Action<HostBuilderContext, IConfigurationBuilder> ConfigureApplicationConfig()
+        {
+            return (hostingContext, config) =>
             {
                 var env = hostingContext.HostingEnvironment;
 
@@ -43,33 +86,17 @@ namespace PivotalServices.WebApiTemplate.CSharp
                     .AddEnvironmentVariables()
                     .AddConfigServer()
                     .AddPlaceholderResolver();
-            })
-            .UseDefaultServiceProvider((hostingContext, options) =>
+            };
+        }
+
+        private static Action<IConfigurationBuilder> ConfigureHost(string[] args)
+        {
+            return config =>
             {
-                var isDevelopment = hostingContext.HostingEnvironment.IsDevelopment();
-                options.ValidateScopes = isDevelopment;
-                options.ValidateOnBuild = isDevelopment;
-            })
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-                webBuilder.UseCloudHosting(5000, 5001);
-            })
-            .ConfigureLogging((hostingContext, loggingBuilder) => 
-            {
-                loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                loggingBuilder.AddConsole(
-                    options =>
-                    {
-                        options.IncludeScopes = Convert.ToBoolean(
-                                hostingContext.Configuration["Logging:IncludeScopes"]);
-                    });
-                loggingBuilder.AddDebug();
-                loggingBuilder.AddDynamicConsole();
-                loggingBuilder.AddEventSourceLogger();
-            })
-            .Build()
-            .Run();
+                config.AddEnvironmentVariables(prefix: "DOTNET_");
+                if (args != null)
+                    config.AddCommandLine(args);
+            };
         }
     }
 }

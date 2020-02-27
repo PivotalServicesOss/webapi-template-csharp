@@ -1,0 +1,14 @@
+﻿---
+Logging:
+  IncludeScopes: false
+  LogLevel:
+    Default: Debug
+    Steeltoe: Debug
+    Microsoft: Debug
+    FluentValidation: Debug
+    System: Debug
+    MediatR: Debug
+spring:
+  cloud:
+    config:
+      failFast: false

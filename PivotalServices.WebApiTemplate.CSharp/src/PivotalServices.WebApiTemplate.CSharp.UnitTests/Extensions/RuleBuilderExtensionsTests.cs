@@ -9,17 +9,41 @@ namespace PivotalServices.WebApiTemplate.CSharp.Unit.Tests.Extensions
         [Fact]
         public void Test_IsNonEmptyEightDigitNumber()
         {
-            var validator = new ValidatorStub();
+            //Arrange
+            var validator = new EightDigitValidatorStub();
+
+            //Act and Assert
             Assert.True(validator.Validate("12345678").IsValid);
             Assert.False(validator.Validate(string.Empty).IsValid);
             Assert.False(validator.Validate("123").IsValid);
             Assert.False(validator.Validate("123456789").IsValid);
         }
+
+        [Fact]
+        public void Test_IsNonEmptyThreeDigitNumber()
+        {
+            //Arrange
+            var validator = new ThreeDigitValidatorStub();
+
+            //Act and Assert
+            Assert.True(validator.Validate("123").IsValid);
+            Assert.False(validator.Validate(string.Empty).IsValid);
+            Assert.False(validator.Validate("123werwere").IsValid);
+            Assert.False(validator.Validate("123456789").IsValid);
+        }
     }
 
-    class ValidatorStub : AbstractValidator<string>
+    class ThreeDigitValidatorStub : AbstractValidator<string>
     {
-        public ValidatorStub()
+        public ThreeDigitValidatorStub()
+        {
+            RuleFor(p => p).IsNonEmptyThreeDigitNumber();
+        }
+    }
+    
+    class EightDigitValidatorStub : AbstractValidator<string>
+    {
+        public EightDigitValidatorStub()
         {
             RuleFor(p => p).IsNonEmptyEightDigitNumber();
         }

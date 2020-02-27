@@ -20,8 +20,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.V1.Features.Values
 
         public class Request : IRequest, IRequest<Response>
         {
-            public string Param1 { get; set; }
-            public string Param2 { get; set; }
+            public Values Values { get; set; } = new Values();
         }
 
         public class Response
@@ -33,10 +32,10 @@ namespace PivotalServices.WebApiTemplate.CSharp.V1.Features.Values
         {
             public Validator()
             {
-                RuleFor(p => p.Param1)
+                RuleFor(p => p.Values.Param1)
                     .IsNonEmptyEightDigitNumber();
 
-                RuleFor(p => p.Param2)
+                RuleFor(p => p.Values.Param2)
                     .NotNull()
                     .NotEmpty();
             }

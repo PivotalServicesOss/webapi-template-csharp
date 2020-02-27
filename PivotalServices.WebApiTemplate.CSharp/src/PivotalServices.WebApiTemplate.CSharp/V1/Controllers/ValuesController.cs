@@ -27,7 +27,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.V1.Controllers
         [Route("{param1}/{param2}")]
         public async Task<ActionResult<GetValues.Response>> GetValues(string param1, string param2)
         {
-            var request = new GetValues.Request {Param1 = param1, Param2 = param2};
+            var request = new GetValues.Request { Values = new Values{ Param1 = param1, Param2 = param2 } };
             return await mediator.Send<GetValues.Response>(request);
         }
 
@@ -39,8 +39,10 @@ namespace PivotalServices.WebApiTemplate.CSharp.V1.Controllers
         ///
         ///     POST /Values
         ///     {
-        ///        "Param1": 111,
-        ///        "Param2": "111111"
+        ///         "values": {
+        ///             "param1": "string",
+        ///             "param2": "string"
+        ///             }
         ///     }
         ///
         /// </remarks>

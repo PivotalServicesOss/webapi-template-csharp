@@ -3,8 +3,8 @@ Logging:
   IncludeScopes: true
   LogLevel:
     Default: Information
-    Steeltoe: Warning
-    Microsoft: Warning
+    Steeltoe: Information
+    Microsoft: Information
     FluentValidation: Warning
     System: Warning
     MediatR: Warning
@@ -18,3 +18,23 @@ ApiInfo:
     Name: PivotalServices
     Url: https://licenses.bar.com/license1
   DeprecationMessage: " Warning: This API version has been deprecated."
+management:
+  endpoints:
+    path: "/cloudfoundryapplication"
+    cloudfoundry:
+      validateCertificates: false
+spring:
+  application:
+    name: PivotalServices.WebApiTemplate.CSharp
+  cloud:
+    config:
+      validate_certificates: false
+      failFast: false
+      name: PivotalServices.WebApiTemplate.CSharp
+      env: "${ASPNETCORE_ENVIRONMENT}"
+eureka:
+  client:
+    validate_certificates: false
+  instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
