@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace PivotalServices.WebApiTemplate.CSharp.Integration.Tests.Controllers
+namespace PivotalServices.WebApiTemplate.CSharp.Integration.Tests.V1.Controllers
 {
     public class ValuesControllerTests : IClassFixture<TestingWebApplicationFactory>
     {

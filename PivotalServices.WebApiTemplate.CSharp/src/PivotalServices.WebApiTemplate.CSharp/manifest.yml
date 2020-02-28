@@ -10,6 +10,6 @@
   health-check-http-endpoint: /actuator/health
   env:
     ASPNETCORE_ENVIRONMENT: development
-  services:
-  - service_registry
-  - config_server
+  #services:
+  #- service_registry
+  #- config_server
