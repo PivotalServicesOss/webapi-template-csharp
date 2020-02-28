@@ -1,19 +1,15 @@
 ﻿applications:
 - name: PivotalServices.WebApiTemplate.CSharp
   disk_quota: 512MB
-  instances: 1
+  instances: 2
   buildpack: binary_buildpack
-  memory: 1024MB
+  memory: 512MB
   stack: cflinuxfs3
   command:  ./PivotalServices.WebApiTemplate.CSharp --server.urls http://*:%PORT%
   health-check-type: http
-  health-check-http-endpoint: /api/health/v1/healthcheck
+  health-check-http-endpoint: /actuator/health
   env:
-    "eureka:client:validate_certificates": false
-    "eureka:instance:nonSecurePortEnabled": false
-    "eureka:instance:securePortEnabled": true
-    ENV: sandbox
-    spring:cloud:config:label: master
-  services:
-  - service_registry
-  - config_server
+    ASPNETCORE_ENVIRONMENT: development
+  #services:
+  #- service_registry
+  #- config_server

@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Steeltoe.Common.Hosting;
 using System;
 using System.IO;
 using Steeltoe.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.Placeholder;
+using Microsoft.Extensions.Hosting;
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PivotalServices.WebApiTemplate.CSharp
 {
@@ -13,46 +17,86 @@ namespace PivotalServices.WebApiTemplate.CSharp
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                            .UseKestrel()
-                            .UseCloudFoundryHosting()
-                            .UseContentRoot(Directory.GetCurrentDirectory())
-                            .UseIISIntegration()
-                            .UseStartup<Startup>()
-                            .ConfigureAppConfiguration(ConfigureAppAction())
-                            .ConfigureLogging(ConfigureLogging()).Build();
-
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        private static Action<WebHostBuilderContext, IConfigurationBuilder> ConfigureAppAction()
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            var environment = Environment.GetEnvironmentVariable("ENV") ?? "Development";
-            var clientSettings = new ConfigServerClientSettings { Environment = environment };
-            return (builderContext, config) =>
-                {
-                    config.SetBasePath(builderContext.HostingEnvironment.ContentRootPath)
-                        .AddJsonFile("appsettings.json", false, false)
-                        .AddJsonFile($"appsettings.{environment}.json", true, false)
-                        .AddEnvironmentVariables()
-                        .AddConfigServer(clientSettings);
-                };
+            return new HostBuilder()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureHostConfiguration(ConfigureHost(args))
+                .ConfigureAppConfiguration(ConfigureApplicationConfig())
+                .UseDefaultServiceProvider(ConfigureServiceProvider())
+                .ConfigureWebHostDefaults(ConfigureWebHost())
+                .ConfigureLogging(ConfigureLogging());
         }
 
-        private static Action<WebHostBuilderContext, ILoggingBuilder> ConfigureLogging()
+        private static Action<HostBuilderContext, ServiceProviderOptions> ConfigureServiceProvider()
         {
-            return (builderContext, loggingBuilder) =>
+            return (hostingContext, options) =>
+            {
+                var isDevelopment = hostingContext.HostingEnvironment.IsDevelopment();
+                options.ValidateScopes = isDevelopment;
+                options.ValidateOnBuild = isDevelopment;
+            };
+        }
+
+        private static Action<IWebHostBuilder> ConfigureWebHost()
+        {
+            return webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+                webBuilder.UseCloudHosting(5000, 5001);
+            };
+        }
+
+        private static Action<HostBuilderContext, ILoggingBuilder> ConfigureLogging()
+        {
+            return (hostingContext, loggingBuilder) =>
+            {
+                loggingBuilder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                loggingBuilder.AddConsole(options =>
                 {
-                    loggingBuilder.AddConfiguration(builderContext.Configuration.GetSection("Logging"));
-                    loggingBuilder.AddConsole(
-                        options =>
-                            {
-                                options.IncludeScopes = Convert.ToBoolean(
-                                    builderContext.Configuration["Logging:IncludeScopes"]);
-                            });
-                    loggingBuilder.AddDebug();
-                    loggingBuilder.AddDynamicConsole();
-                };
+                    options.IncludeScopes = Convert.ToBoolean(
+                    hostingContext.Configuration["Logging:IncludeScopes"]);
+                });
+                loggingBuilder.AddDebug();
+                loggingBuilder.AddEventSourceLogger();
+            };
+        }
+
+        private static Action<HostBuilderContext, IConfigurationBuilder> ConfigureApplicationConfig()
+        {
+            return (hostingContext, config) =>
+            {
+                var env = hostingContext.HostingEnvironment;
+
+                if (env.IsDevelopment() && !string.IsNullOrEmpty(env.ApplicationName))
+                {
+                    var appAssembly = Assembly.Load(new AssemblyName(env.ApplicationName));
+                    if (appAssembly != null)
+                        config.AddUserSecrets(appAssembly, optional: true);
+                }
+
+                config.SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
+                    .AddJsonFile("appsettings.json", true, false)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, false)
+                    .AddYamlFile("appsettings.yaml", true, false)
+                    .AddYamlFile($"appsettings.{env.EnvironmentName}.yaml", true, false)
+                    .AddEnvironmentVariables()
+                    .AddConfigServer()
+                    .AddPlaceholderResolver();
+            };
+        }
+
+        private static Action<IConfigurationBuilder> ConfigureHost(string[] args)
+        {
+            return config =>
+            {
+                config.AddEnvironmentVariables(prefix: "DOTNET_");
+                if (args != null)
+                    config.AddCommandLine(args);
+            };
         }
     }
 }

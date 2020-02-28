@@ -1,35 +1,37 @@
+using System;
 using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace PivotalServices.WebApiTemplate.CSharp.Bootstrap
 {
     public class ValidationExceptionMiddleware
     {
-        private readonly RequestDelegate _next;
+        private readonly RequestDelegate next;
+        private readonly ILogger<ValidationExceptionMiddleware> logger;
 
-        public ValidationExceptionMiddleware(RequestDelegate next)
+        public ValidationExceptionMiddleware(RequestDelegate next, ILogger<ValidationExceptionMiddleware> logger)
         {
-            _next = next;
+            this.next = next ?? throw new ArgumentNullException(nameof(next));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await _next.Invoke(context);
+                await next.Invoke(context);
             }
             catch (ValidationException validationException)
             {
-                var response = context.Response;
-                
-                response.ContentType = "application/json";
-                response.StatusCode = StatusCodes.Status400BadRequest;
-                await response.WriteAsync(JsonConvert.SerializeObject(new 
+                logger.LogError($"Message: {validationException.Message}, Details:{validationException.StackTrace}");
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new 
                 {
-                    Message = validationException.Message,
-                    Description = validationException.StackTrace
+                    validationException.Message,
                 }));
             }
         }

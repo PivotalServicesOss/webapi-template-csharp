@@ -1,16 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0</PackageVersion>
     <PackageId>PivotalServices.WebApiTemplate.CSharp</PackageId>
     <Title>Pivotal PCF WebAPI Template</Title>
-    <repositoryUrl>https://github.com/CedricYao/pivotal-webapi-template-csharp</repositoryUrl>
-    <Authors>Pivotal</Authors>
+    <repositoryUrl>https://github.com/cedricyao/pivotal-webapi-template-csharp</repositoryUrl>
+    <Authors>cyao, ajaganathan, Pivotal</Authors>
     <Description>dotnet new template for creating a PCF ready dotnet core web api application with unit and integration tests</Description>
     <Tags>dotnet-new;templates;pcf;webapi</Tags>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
