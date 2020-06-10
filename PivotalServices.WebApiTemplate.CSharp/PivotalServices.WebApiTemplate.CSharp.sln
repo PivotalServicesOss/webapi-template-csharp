@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PivotalServices.WebApiTempl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PivotalServices.WebApiTemplate.CSharp.UnitTests", "src\PivotalServices.WebApiTemplate.CSharp.UnitTests\PivotalServices.WebApiTemplate.CSharp.UnitTests.csproj", "{D57A9400-48ED-4360-AFA6-D2928991F566}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PivotalServices.WebApiTemplate.CSharp.IntegTests", "src\PivotalServices.WebApiTemplate.CSharp.IntegTests\PivotalServices.WebApiTemplate.CSharp.IntegTests.csproj", "{4199235C-9935-4B72-AC8B-FFE33BE941B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PivotalServices.WebApiTemplate.CSharp.IntegrationTests", "src\PivotalServices.WebApiTemplate.CSharp.IntegrationTests\PivotalServices.WebApiTemplate.CSharp.IntegrationTests.csproj", "{4199235C-9935-4B72-AC8B-FFE33BE941B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{829E80BA-BD8B-481E-8195-9686F491948F}"
 EndProject

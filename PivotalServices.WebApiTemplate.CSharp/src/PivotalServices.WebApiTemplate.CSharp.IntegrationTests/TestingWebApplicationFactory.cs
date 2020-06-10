@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace PivotalServices.WebApiTemplate.CSharp.Integration.Tests
+namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests
 {
     public class TestingWebApplicationFactory : WebApplicationFactory<Startup>
     {

@@ -77,7 +77,7 @@ task UnitTests {
 task IntegrationTests {
     Write-Host "******************* Now running Integration Tests *********************"
     exec { 
-        & $dotnet_exe test -c $project_config "$project_dir.IntegTests" -- xunit.parallelizeTestCollections=true
+        & $dotnet_exe test -c $project_config "$project_dir.IntegrationTests" -- xunit.parallelizeTestCollections=true
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     }
 }
