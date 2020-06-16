@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,8 @@ namespace PivotalServices.WebApiTemplate.CSharp
             services.AddMediatRServices();
             services.AddApiVersioningServices(Configuration);
             services.AddSwaggerServices();
-            services.AddControllersWithFluentValidation();
+            services.AddControllers();
+            services.AddValidatorsFromAssemblyContaining<Startup>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration, IApiVersionDescriptionProvider provider)
