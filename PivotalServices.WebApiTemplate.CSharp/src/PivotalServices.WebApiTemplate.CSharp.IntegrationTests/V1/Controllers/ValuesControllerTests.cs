@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Xunit;
 
 namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests.V1.Controllers
@@ -26,11 +27,9 @@ namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests.V1.Controllers
             // Assert
             response.EnsureSuccessStatusCode();
 
-            Assert.Equal("application/json; charset=utf-8",
-                response.Content.Headers.ContentType.ToString()); 
-            
-            Assert.Equal("{\"result\":\"{\\\"Values\\\":{\\\"Param1\\\":\\\"12345678\\\",\\\"Param2\\\":\\\"123\\\"}}\"}",
-                response.Content.ReadAsStringAsync().Result);
+            response.Content.Headers.ContentType.ToString().Should().Be("application/json; charset=utf-8");
+
+            response.Content.ReadAsStringAsync().Result.Should().Be("{\"result\":\"{\\\"Values\\\":{\\\"Param1\\\":\\\"12345678\\\",\\\"Param2\\\":\\\"123\\\"}}\"}");
         }
 
         [Fact]
@@ -41,11 +40,10 @@ namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests.V1.Controllers
 
             //Act
             var response = await client.GetAsync("/api/v1/Values/123/123");
-            
+
             // Assert
-            Assert.Equal("BadRequest", response.StatusCode.ToString());
-            Assert.Equal("{\"Message\":\"Validation failed: \\r\\n -- Values.Param1: Values.Param1 must be 8 digit number\"}", 
-                response.Content.ReadAsStringAsync().Result);
+            response.StatusCode.ToString().Should().Be("BadRequest");
+            response.Content.ReadAsStringAsync().Result.Should().Be("{\"Message\":\"Validation failed: \\r\\n -- Values.Param1: Values.Param1 must be 8 digit number\"}");
         }
 
         [Fact]
@@ -61,11 +59,9 @@ namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests.V1.Controllers
             // Assert
             response.EnsureSuccessStatusCode();
 
-            Assert.Equal("application/json; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+            response.Content.Headers.ContentType.ToString().Should().Be("application/json; charset=utf-8");
 
-            Assert.Equal("{\"resultParam1\":\"123\",\"resultParam2\":\"123456\"}",
-                response.Content.ReadAsStringAsync().Result);
+            response.Content.ReadAsStringAsync().Result.Should().Be("{\"resultParam1\":\"123\",\"resultParam2\":\"123456\"}");
         }
 
         [Fact]
@@ -79,7 +75,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests.V1.Controllers
             var response = await client.PostAsync("/api/v1/Values", content);
 
             // Assert
-            Assert.Equal("BadRequest", response.StatusCode.ToString());
+            response.StatusCode.ToString().Should().Be("BadRequest");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using FluentAssertions;
+using FluentValidation;
 using PivotalServices.WebApiTemplate.CSharp.Extensions;
 using Xunit;
 
@@ -6,30 +7,32 @@ namespace PivotalServices.WebApiTemplate.CSharp.Unit.Tests.Extensions
 {
     public class RuleBuilderExtensionsTests
     {
-        [Fact]
-        public void Test_IsNonEmptyEightDigitNumber()
+        [Theory]
+        [InlineData("12345678", true)]
+        [InlineData("", false)]
+        [InlineData("123", false)]
+        [InlineData("123456789", false)]
+        public void Test_IsNonEmptyEightDigitNumber(string value, bool isValid)
         {
             //Arrange
             var validator = new EightDigitValidatorStub();
 
             //Act and Assert
-            Assert.True(validator.Validate("12345678").IsValid);
-            Assert.False(validator.Validate(string.Empty).IsValid);
-            Assert.False(validator.Validate("123").IsValid);
-            Assert.False(validator.Validate("123456789").IsValid);
+            validator.Validate(value).IsValid.Should().Be(isValid);
         }
 
-        [Fact]
-        public void Test_IsNonEmptyThreeDigitNumber()
+        [Theory]
+        [InlineData("123werwere", false)]
+        [InlineData("", false)]
+        [InlineData("123", true)]
+        [InlineData("123456789", false)]
+        public void Test_IsNonEmptyThreeDigitNumber(string value, bool isValid)
         {
             //Arrange
             var validator = new ThreeDigitValidatorStub();
 
             //Act and Assert
-            Assert.True(validator.Validate("123").IsValid);
-            Assert.False(validator.Validate(string.Empty).IsValid);
-            Assert.False(validator.Validate("123werwere").IsValid);
-            Assert.False(validator.Validate("123456789").IsValid);
+            validator.Validate(value).IsValid.Should().Be(isValid);
         }
     }
 

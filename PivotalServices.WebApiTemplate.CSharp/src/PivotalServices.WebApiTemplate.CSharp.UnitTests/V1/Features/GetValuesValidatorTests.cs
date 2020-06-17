@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+﻿using FluentAssertions;
 using PivotalServices.WebApiTemplate.CSharp.V1.Features.Values;
 using Xunit;
 
@@ -12,12 +12,6 @@ namespace PivotalServices.WebApiTemplate.CSharp.Unit.Tests.V1.Features
         public GetValuesValidatorTests()
         {
             validator = new GetValues.Validator();
-        }
-
-        [Fact]
-        public void Test_IfValidatorIsOfTypeAbstractValidator()
-        {
-            Assert.True(validator is AbstractValidator<GetValues.Request>);
         }
 
         [Theory]
@@ -39,7 +33,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.Unit.Tests.V1.Features
             };
 
             //Act and Assert
-            Assert.Equal(isValid, validator.Validate(request).IsValid);
+            validator.Validate(request).IsValid.Should().Be(isValid);
         }
 
         [Theory]
@@ -59,7 +53,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.Unit.Tests.V1.Features
             };
 
             //Act and Assert
-            Assert.Equal(isValid, validator.Validate(request).IsValid);
+            validator.Validate(request).IsValid.Should().Be(isValid);
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests
 {
