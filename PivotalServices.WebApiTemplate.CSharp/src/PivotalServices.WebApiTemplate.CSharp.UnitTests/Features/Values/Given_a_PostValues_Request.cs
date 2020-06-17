@@ -1,22 +1,22 @@
 ﻿using FluentAssertions;
-using PivotalServices.WebApiTemplate.CSharp.V1.Features.Values;
+using PivotalServices.WebApiTemplate.CSharp.Features.Values;
 using Xunit;
 
-namespace PivotalServices.WebApiTemplate.CSharp.UnitTests.V1.Features.Values
+namespace PivotalServices.WebApiTemplate.CSharp.UnitTests.Features.Values
 {
-    public partial class GetValuesValidator
+    public partial class PostValuesValidator
     {
-        public class Given_a_GetValues_Request
+        public class Given_a_PostValues_Request
         {
-            private readonly GetValues.Validator validator;
-            private GetValues.Request request;
+            private readonly PostValues.Validator validator;
+            private PostValues.Request request;
 
-            public Given_a_GetValues_Request()
+            public Given_a_PostValues_Request()
             {
-                validator = new GetValues.Validator();
-                request = new GetValues.Request
+                validator = new PostValues.Validator();
+                request = new PostValues.Request
                 {
-                    Param1 = "12345678",
+                    Param1 = "123",
                     Param2 = "1234"
                 };
             }
@@ -26,7 +26,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.UnitTests.V1.Features.Values
             [InlineData("123456789asas", false)]
             [InlineData("123456AA", false)]
             [InlineData("", false)]
-            [InlineData("12345678", true)]
+            [InlineData("123", true)]
             public void Should_validate_Param1(string value, bool isValid)
             {
                 request.Param1 = value;

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PivotalServices.WebApiTemplate.CSharp.V1.Features.Values;
+using PivotalServices.WebApiTemplate.CSharp.Features.Values;
 
 namespace PivotalServices.WebApiTemplate.CSharp.V1.Controllers
 {

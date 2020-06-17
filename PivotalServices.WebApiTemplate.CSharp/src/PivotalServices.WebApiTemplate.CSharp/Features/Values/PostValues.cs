@@ -4,7 +4,7 @@ using FluentValidation;
 using MediatR;
 using PivotalServices.WebApiTemplate.CSharp.Extensions;
 
-namespace PivotalServices.WebApiTemplate.CSharp.V1.Features.Values
+namespace PivotalServices.WebApiTemplate.CSharp.Features.Values
 {
     public class PostValues
     {
