@@ -5,11 +5,11 @@ using Steeltoe.Common.Hosting;
 using System;
 using System.IO;
 using Steeltoe.Extensions.Configuration.ConfigServer;
-using Steeltoe.Extensions.Logging;
 using Steeltoe.Extensions.Configuration.Placeholder;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
+using Autofac.Extensions.DependencyInjection;
+using PivotalServices.WebApiTemplate.CSharp.Bootstrap;
 
 namespace PivotalServices.WebApiTemplate.CSharp
 {
@@ -22,23 +22,15 @@ namespace PivotalServices.WebApiTemplate.CSharp
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
+            var container = AutofacBootstrapper.Execute();
+
             return new HostBuilder()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureHostConfiguration(ConfigureHost(args))
                 .ConfigureAppConfiguration(ConfigureApplicationConfig())
-                .UseDefaultServiceProvider(ConfigureServiceProvider())
+                .UseServiceProviderFactory(new AutofacChildLifetimeScopeServiceProviderFactory(container))
                 .ConfigureWebHostDefaults(ConfigureWebHost())
                 .ConfigureLogging(ConfigureLogging());
-        }
-
-        private static Action<HostBuilderContext, ServiceProviderOptions> ConfigureServiceProvider()
-        {
-            return (hostingContext, options) =>
-            {
-                var isDevelopment = hostingContext.HostingEnvironment.IsDevelopment();
-                options.ValidateScopes = isDevelopment;
-                options.ValidateOnBuild = isDevelopment;
-            };
         }
 
         private static Action<IWebHostBuilder> ConfigureWebHost()
