@@ -33,7 +33,6 @@ namespace PivotalServices.WebApiTemplate.CSharp.Documentation
                 Title = apiOptions.Title,
                 Description = apiOptions.Description,
                 Contact = new OpenApiContact() { Name = apiOptions.Contact.Name, Email = apiOptions.Contact.Email },
-                License = new OpenApiLicense() { Name = apiOptions.License.Name, Url = new Uri(apiOptions.License.Url) }
             };
 
             if (description.IsDeprecated)
