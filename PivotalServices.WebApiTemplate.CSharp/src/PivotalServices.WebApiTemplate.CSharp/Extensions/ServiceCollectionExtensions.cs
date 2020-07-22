@@ -65,17 +65,6 @@ namespace PivotalServices.WebApiTemplate.CSharp.Extensions
             return services;
         }
 
-        public static IServiceCollection AddControllersWithFluentValidation(this IServiceCollection services)
-        {
-            services.AddControllers()
-                .AddFluentValidation(options =>
-                {
-                    options.RegisterValidatorsFromAssemblyContaining<Startup>();
-                });
-
-            return services;
-        }
-
         static string XmlCommentsFilePath
         {
             get

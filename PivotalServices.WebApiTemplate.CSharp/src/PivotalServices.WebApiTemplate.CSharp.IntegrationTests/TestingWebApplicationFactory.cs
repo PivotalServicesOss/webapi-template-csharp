@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Configuration;
-using System.IO;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace PivotalServices.WebApiTemplate.CSharp.Integration.Tests
+namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests
 {
     public class TestingWebApplicationFactory : WebApplicationFactory<Startup>
     {

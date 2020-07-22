@@ -14,11 +14,11 @@ properties {
   $solution_file = "$base_dir\$solution_name.sln"
   $publish_dir = "$base_dir\publish"
 
-  $version = get_version
+  $assemblyVersion = get_version
   $date = Get-Date
   $dotnet_exe = get-dotnet
 
-  $ReleaseNumber =  $version
+  $ReleaseNumber =  $assemblyVersion
   
   Write-Host "**********************************************************************"
   Write-Host "Release Number: $ReleaseNumber"
@@ -35,7 +35,7 @@ task ci -depends IntegrationBuild
 task ? -depends help
 task test -depends RunTests
 task pp -depends Publish-Push
-task publish_notest_push -depends SetReleaseBuild, Clean, Publish, push
+task pntp -depends SetReleaseBuild, Clean, Publish, push
 
 
 task help {
@@ -46,6 +46,7 @@ task help {
    Write-Help-For-Alias "ci" "Continuous Integration build (long and thorough) with packaging"
    Write-Help-For-Alias "test" "Run local tests"
    Write-Help-For-Alias "pp" "Intended for pushing to PCF. Will dotnet publish into $release_id then cf push"
+   Write-Help-For-Alias "pntp" "Intended for pushing to PCF. Will Not run tests. Will dotnet publish into $release_id then cf push"
    Write-Help-Footer
    exit 0
 }
@@ -67,12 +68,18 @@ task SetReleaseBuild {
 
 task UnitTests {
    Write-Host "******************* Now running Unit Tests *********************"
-   exec { & $dotnet_exe test -c $project_config "$project_dir.UnitTests" -- xunit.parallelizeTestCollections=true }
+   exec { 
+       & $dotnet_exe test -c $project_config "$project_dir.UnitTests" -- xunit.parallelizeTestCollections=true -p:Version=$ReleaseNumber
+       if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+   }
 }
 
 task IntegrationTests {
     Write-Host "******************* Now running Integration Tests *********************"
-    exec { & $dotnet_exe test -c $project_config "$project_dir.IntegTests" -- xunit.parallelizeTestCollections=true }
+    exec { 
+        & $dotnet_exe test -c $project_config "$project_dir.IntegrationTests" -- xunit.parallelizeTestCollections=true
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    }
 }
 
 
@@ -82,12 +89,18 @@ task Clean {
 	}
 
 	Write-Host "******************* Now Cleaning the Solution *********************"
-    exec { & $dotnet_exe clean -c $project_config $solution_file }
+    exec { 
+        & $dotnet_exe clean -c $project_config $solution_file
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    }
 }
 
 task PackageRestore {
 	Write-Host "******************* Now restoring the Solution packages *********************"
-	exec { & $dotnet_exe restore $solution_file }
+	exec { 
+        & $dotnet_exe restore $solution_file
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    }
 }
 
 task Publish {
@@ -95,14 +108,20 @@ task Publish {
 	if (!(Test-Path $publish_dir)) {
 		New-Item -ItemType Directory -Force -Path $publish_dir
 	}
-	exec { & $dotnet_exe publish -c $project_config $project_file -o $publish_dir -r $release_id -p:AssemblyVersion=$version}
+	exec { 
+        & $dotnet_exe publish -c $project_config $project_file -o $publish_dir -r $release_id -p:AssemblyVersion=$version
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    }
 }
 
 task Push {
 	Push-Location $publish_dir
 
 	Write-Host "Pushing application to PCF"
-	exec { & "cf" push --var environment=$environment -n $app_name}
+	exec { 
+        & "cf" push --var environment=$environment -n $app_name
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    }
 
 	Pop-Location
 }
@@ -166,14 +185,13 @@ function global:get_vstest_executable($lookin_path) {
     return $vstest_exe
 }
 
-function global:get_version(){
-	Write-Host "******************* Getting the Version Number ********************"
-	$version = get-content "$base_Dir\..\version\version" -ErrorAction SilentlyContinue
-	if ($version -eq $null) {
-	    Write-Host "--------- No version found defaulting to 1.0.0 --------------------" -foregroundcolor Red
-		$version = '1.0.0'
-	}
-	return $version
+function global:get_version() {
+    Write-Host "******************* Getting the Version Number ********************"
+    if ($assemblyVersion -eq $null) {
+        Write-Host "--------- No version found defaulting to 1.0.0.0 --------------------" -foregroundcolor Red
+        $assemblyVersion = '1.0.0.0'
+    }
+    return $assemblyVersion
 }
 
 function global:get-dotnet(){

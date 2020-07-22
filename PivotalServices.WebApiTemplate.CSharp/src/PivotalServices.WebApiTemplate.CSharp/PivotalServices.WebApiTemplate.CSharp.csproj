@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="$(FluentValidationVersion)" />
     <PackageReference Include="MediatR" Version="$(MediatRVersion)" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="$(MediatRVersion)" />
