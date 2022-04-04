@@ -28,7 +28,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.IntegrationTests.V1.Controllers.
             [Fact]
             public async Task Should_return_corrent_validation_errors_on_validation_error()
             {
-                response.Content.ReadAsStringAsync().Result.Should().Be("{\"Message\":\"Validation failed: \\r\\n -- Param1: Param1 must be 8 digit number\"}");
+                response.Content.ReadAsStringAsync().Result.Should().MatchRegex("{\"Message\":\"Validation failed: (\\\\r\\\\n?|\\\\n) -- Param1: Param1 must be 8 digit number\"}");
             }
         }
     }
