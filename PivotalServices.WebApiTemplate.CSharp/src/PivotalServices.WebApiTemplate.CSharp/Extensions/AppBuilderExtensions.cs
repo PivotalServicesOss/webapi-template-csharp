@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using PivotalServices.WebApiTemplate.CSharp.Bootstrap;
-using Steeltoe.CloudFoundry.Connector;
+using Steeltoe.Connector;
 using Steeltoe.Discovery.Client;
-using Steeltoe.Management.CloudFoundry;
 
 namespace PivotalServices.WebApiTemplate.CSharp.Extensions
 {
@@ -17,7 +14,6 @@ namespace PivotalServices.WebApiTemplate.CSharp.Extensions
             if (configuration.HasCloudFoundryServiceConfigurations())
             {
                 app.UseDiscoveryClient();
-                app.UseCloudFoundryActuators();
             }
 
             return app;

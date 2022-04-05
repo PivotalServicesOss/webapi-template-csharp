@@ -1,5 +1,4 @@
-﻿using FluentValidation.AspNetCore;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -7,12 +6,12 @@ using Microsoft.Extensions.PlatformAbstractions;
 using PivotalServices.WebApiTemplate.CSharp.Bootstrap;
 using PivotalServices.WebApiTemplate.CSharp.Documentation;
 using PivotalServices.WebApiTemplate.CSharp.Versioning;
-using Steeltoe.CloudFoundry.Connector;
 using Steeltoe.Discovery.Client;
-using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.IO;
 using System.Reflection;
+using Steeltoe.Connector;
+using Steeltoe.Management.Endpoint;
 
 namespace PivotalServices.WebApiTemplate.CSharp.Extensions
 {
@@ -23,7 +22,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.Extensions
             if (configuration.HasCloudFoundryServiceConfigurations())
             {
                 services.AddDiscoveryClient(configuration);
-                services.AddCloudFoundryActuators(configuration);
+                services.AddAllActuators(configuration);
             }
 
             return services;

@@ -20,7 +20,7 @@ namespace PivotalServices.WebApiTemplate.CSharp.Bootstrap
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var context = new ValidationContext(request);
+            var context = new ValidationContext<object>(request);
             var failures = validators
                 .Select(v => v.Validate(context))
                 .SelectMany(result => result.Errors)

@@ -1,18 +1,18 @@
 <Project>
   <PropertyGroup>
-    <TargetFrameworkApp>netcoreapp3.1</TargetFrameworkApp>
-    <MicrosoftAspNetCoreVersion>2.2.0</MicrosoftAspNetCoreVersion>
-    <MicrosoftAspNetCoreMvcTestingVersion>3.1.0</MicrosoftAspNetCoreMvcTestingVersion>
-    <MicrosoftAspNetCoreMvcVersioningVersion>4.1.1</MicrosoftAspNetCoreMvcVersioningVersion>
+    <TargetFrameworkApp>net6.0</TargetFrameworkApp>
+    <MicrosoftAspNetCoreMvcTestingVersion>6.0.3</MicrosoftAspNetCoreMvcTestingVersion>
+    <MicrosoftAspNetCoreMvcVersioningVersion>5.0.0</MicrosoftAspNetCoreMvcVersioningVersion>
     <MicrosoftAspNetCoreStaticFilesVersion>2.2.0</MicrosoftAspNetCoreStaticFilesVersion>
     <MicrosoftExtensionsPlatformAbstractionsVersion>1.1.0</MicrosoftExtensionsPlatformAbstractionsVersion>
-    <MicrosoftTestSdkVersion>16.5.0</MicrosoftTestSdkVersion>
-    <SteeltoeVersion>2.4.2</SteeltoeVersion>
-    <FluentValidationVersion>8.6.1</FluentValidationVersion>
-    <MediatRVersion>8.0.0</MediatRVersion>
-    <NetEscapadesVersion>2.0.0</NetEscapadesVersion>
-    <SwashbuckleVersion>5.0.0</SwashbuckleVersion>
+    <MicrosoftTestSdkVersion>17.1.0</MicrosoftTestSdkVersion>
+    <SteeltoeVersion>3.1.3</SteeltoeVersion>
+    <NewtonsoftJsonVersion>13.0.1</NewtonsoftJsonVersion>
+    <FluentValidationVersion>10.4.0</FluentValidationVersion>
+    <MediatRVersion>10.0.1</MediatRVersion>
+    <NetEscapadesVersion>2.2.0</NetEscapadesVersion>
+    <SwashbuckleVersion>6.3.0</SwashbuckleVersion>
     <XunitVersion>2.4.1</XunitVersion>
-    <MoqVersion>4.13.1</MoqVersion>
+    <MoqVersion>4.17.2</MoqVersion>
   </PropertyGroup>
 </Project>

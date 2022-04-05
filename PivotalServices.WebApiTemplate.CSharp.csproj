@@ -9,7 +9,7 @@
     <Authors>cyao, ajaganathan, acvwilson, Pivotal</Authors>
     <Description>dotnet new template for creating a PCF ready dotnet core web api application with unit and integration tests</Description>
     <Tags>dotnet-new;templates;pcf;webapi</Tags>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>$(TargetFrameworkApp)</TargetFramework>
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
